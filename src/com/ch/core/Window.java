@@ -17,10 +17,8 @@ public class Window {
 		Display.setTitle(title);
 		try {
 			Display.setDisplayMode(new DisplayMode(width, height));
-//			Display.setVSyncEnabled(true);
 			Display.setResizable(true);
 			Display.create();
-//			Display.create(new PixelFormat(), new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(true));
 			Keyboard.create();
 			Mouse.create();
 		} catch (LWJGLException e) {

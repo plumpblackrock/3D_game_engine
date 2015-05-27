@@ -67,21 +67,17 @@ public class CoreEngine {
 
 		while (isRunning) {
 
-			while (Keyboard.next()) {
-				int face = GL_FRONT;
-				if (Keyboard.getEventKeyState()) {
-					if (Keyboard.getEventKey() == Keyboard.KEY_P) {
-						int polygonMode = glGetInteger(GL_POLYGON_MODE);
-						if (polygonMode == GL_POINT) {
-							glPolygonMode(face, GL_FILL);
-						} else if (polygonMode == GL_LINE) {
-							glPolygonMode(face, GL_POINT);
-						} else if (polygonMode == GL_FILL) {
-							glPolygonMode(face, GL_LINE);
-						}
-					}
-				}
-			}
+            if (Input.GetKeyDown(Input.KEY_P)) {
+                int face = GL_FRONT;
+                int polygonMode = glGetInteger(GL_POLYGON_MODE);
+                if (polygonMode == GL_POINT) {
+                    glPolygonMode(face, GL_FILL);
+                } else if (polygonMode == GL_LINE) {
+                    glPolygonMode(face, GL_POINT);
+                } else if (polygonMode == GL_FILL) {
+                    glPolygonMode(face, GL_LINE);
+                }
+            }
 
 			if (Window.isCloseRequested()) {
 				stop();
@@ -93,6 +89,7 @@ public class CoreEngine {
 
 			Timer.update();
 
+            // TODO: remove ~only temp~
 			Display.setTitle(Timer.getFPS() + "");
 
 			game.input(Timer.getDelta());
@@ -110,7 +107,7 @@ public class CoreEngine {
 	}
 
 	private void resize() {
-		renderer.getMainCamera().adjustToViewport();
+		renderer.getMainCamera().adjustToViewport(Display.getWidth(), Display.getHeight());
 	}
 
 	private void cleanUp() {

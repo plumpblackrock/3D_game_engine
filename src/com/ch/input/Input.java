@@ -2,8 +2,9 @@ package com.ch.input;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-
 import com.ch.math.Vector2f;
+
+import static org.lwjgl.input.Keyboard.*;
 
 public class Input {
 	public static final int NUM_KEYCODES = 256;
@@ -149,7 +150,7 @@ public class Input {
 
 	public static void Update() {
 		for (int i = 0; i < NUM_KEYCODES; i++)
-			lastKeys[i] = GetKey(i);
+			lastKeys[i] = Keyboard.isKeyDown(i);
 
 		for (int i = 0; i < NUM_MOUSEBUTTONS; i++)
 			lastMouse[i] = GetMouse(i);

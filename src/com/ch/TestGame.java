@@ -184,7 +184,7 @@ public class TestGame extends Scene {
 		addObject(
 		// AddObject(
 		new GameObject().addComponent(new FreeLook(0.3f)).addComponent(new FreeMove(6.0f))
-				.addComponent(new Camera(new Matrix4f().initPerspective((float) Math.toRadians(70.0f), (float) Window.getWidth() / (float) Window.getHeight(), 0.01f, 1000.0f))));
+				.addComponent(new Camera((float) Math.toRadians(70.0f), (float) Window.getWidth() / (float) Window.getHeight(), 0.01f, 1000.0f)));
 
 		addObject(testMesh3);
 
