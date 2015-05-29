@@ -10,7 +10,7 @@ public class RigidBody extends GameComponent {
 
 	private Vector3f velocity;
 	private Vector3f netForce;
-	
+	public static float gameTime = 0.00f;//TEST //TODO
 	private Quaternion angularVelocity;
 	private Quaternion netTorque;
 	
@@ -21,7 +21,7 @@ public class RigidBody extends GameComponent {
 		
 //		this.velocity = new Vector3f(((float) Math.random() * 10.0f) -5.0f, 
 //				((float) Math.random() * 10.0f), ((float) Math.random() * 10.0f) -5.0f);
-		this.velocity = new Vector3f(((float) Math.random() * 10.0f) - 5.0f, ((float) Math.random() * 5.0f) + 2.5f, ((float) Math.random() * 10.0f) - 5.0f );
+		this.velocity = new Vector3f(0.0f, 0.0f, 0.0f );
 		this.netForce = new Vector3f(0,0,0);
 
 		this.angularVelocity = new Quaternion();
@@ -56,25 +56,30 @@ public class RigidBody extends GameComponent {
 	
 	@Override
 	public void update(float dt) {
+		gameTime += dt;
 
 		this.integrate(dt);
-		if (this.getTransform().getPos().getY() < 0) {
-			this.getTransform().getPos().setY(0.0f);
-			this.velocity.setY(-this.velocity.getY());
-		}
+		//this.eulerIntegrate(dt);
+
 	}
-		
+
+	public void eulerIntegrate(float dt) {
+		this.getTransform().getPos().addSelf(this.getVelocity().mul(dt));
+		this.addToVel(this.getAcceleration().mul(dt));
+	}
+
 	public void addForce(Vector3f force) {
 		netForce.addSelf(force);
 	}
 
 	/**
-	 * TODO - Change this to use a forceGenerator or something like that (later on)
+	 * TODO - Change this to use a forceGenerator or something like that (soon)
 	 * 		ALSO: try and make this adjustable (maybe devs want gravity to be different for each object or something.)
 	 */
 	public void addGravity() {
+
 		if (this.inverseMass != 0.0f)
-			netForce.addSelf(new Vector3f(0.0f, PhysicsUtil.EARTH_GRAVITY_ACC, 0.0f).mul(1.0f / this.inverseMass));
+			netForce.addSelf(new Vector3f(0.0f, 0.1f * PhysicsUtil.EARTH_GRAVITY_ACC, 0.0f).mul(1.0f / this.inverseMass));
 //		else System.out.println("You can't add gravity to an object with infinite mass!");
 	}
 	
@@ -114,7 +119,7 @@ public class RigidBody extends GameComponent {
 	 * @param time - we are 'time' seconds into the current frame
 	 * @return the acceleration of the rigid body at that particular moment
 	 */
-	public Vector3f calculateAcceleration(float time) {
+	public Vector3f calculateAcceleration(float time, Vector3f someVector) {//TODO - near end of project
 
 		return this.getAcceleration();
 

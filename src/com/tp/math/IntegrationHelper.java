@@ -15,10 +15,11 @@ public class IntegrationHelper {
 
     public static Derivative evaluateRK4(RigidBody rb, float dt, Derivative derivative) {
 
-        rb.getTransform().addToPos(derivative.vel.mul(dt));//s += v * t
-        rb.addToVel(derivative.accel.mul(dt));//v += a * t
 
+        //rb.getTransform().addToPos(derivative.vel.mul(dt)); //s += v * t
+        //rb.addToVel(derivative.accel.mul(dt)); //v += a * t
 
-        return new Derivative(rb.getVelocity(), rb.calculateAcceleration(dt));
+        //TODO fix
+        return new Derivative(rb.getVelocity().add(derivative.accel.mul(dt)), rb.calculateAcceleration(dt, rb.getTransform().getPos().add(derivative.vel.mul(dt))));
     }
 }
