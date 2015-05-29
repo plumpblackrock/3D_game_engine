@@ -1,11 +1,22 @@
 package com.ch.core;
 
+import com.ch.util.OptionalOverride;
+
 public abstract class Scene {
 
-	private GameObject root;
+	protected GameObject root;
+    protected Game parentApplication;
+    protected Renderer mainRenderer;
 
+    @OptionalOverride
 	public void init() {
-	}
+
+    }
+
+    @OptionalOverride
+    public void exitScene() {
+
+    }
 
 	public void input(float delta) {
 		getRootObject().inputAll(delta);
@@ -15,8 +26,8 @@ public abstract class Scene {
 		getRootObject().updateAll(delta);
 	}
 
-	public void render(Renderer renderer) {
-		renderer.render(getRootObject());
+	public void render() {
+		mainRenderer.render(getRootObject());
 	}
 
 	public void addObject(GameObject object) {
@@ -24,14 +35,31 @@ public abstract class Scene {
 	}
 
 	private GameObject getRootObject() {
-		if (root == null)
-			root = new GameObject();
-
+		if (root == null) {
+            root = new GameObject();
+            root.setParentScene(this);
+        }
 		return root;
 	}
 
-	public void setEngine(CoreEngine engine) {
-		getRootObject().setEngine(engine);
-	}
-	
+    public void setParentApplication(Game parentApplication) {
+        this.parentApplication = parentApplication;
+    }
+
+    public void setMainRenderer(Renderer renderer) {
+        this.mainRenderer = renderer;
+    }
+
+    public void resize() {
+        mainRenderer.getMainCamera().adjustToViewport(Window.getWidth(), Window.getHeight());
+    }
+
+    public void validate() {
+        mainRenderer.validateForRendering();
+    }
+
+    public Renderer getMainRenderer() {
+        return mainRenderer;
+    }
+
 }

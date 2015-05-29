@@ -1,5 +1,6 @@
 package com.ch.rendering.components;
 
+import com.ch.core.Scene;
 import com.ch.util.Legacy;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -23,8 +24,9 @@ public class Camera extends GameComponent {
     }
 
     @Legacy
-	protected Camera(Matrix4f projection) {
+	protected Camera(Matrix4f projection, CameraStruct struct) {
 		this.projection = projection;
+        this.values = struct;
 	}
 
 	public Matrix4f getViewProjection() {
@@ -50,13 +52,13 @@ public class Camera extends GameComponent {
 
     public Matrix4f calculateProjectionMatrix(CameraStruct data) {
 
-        return (projection = new Matrix4f().initPerspective(data.fov, data.aspect, data.zNear, data.zFar));
+        return (projection = data.getAsMatrix4());
 
     }
 
 	@Override
-	public void addToEngine(CoreEngine engine) {
-		engine.getRenderer().addCamera(this);
+	public void addToScene(Scene scene) {
+        scene.getMainRenderer().setMainCamera(this);
 	}
 
 	public void adjustToViewport(int width, int height) {
@@ -77,6 +79,10 @@ public class Camera extends GameComponent {
             this.aspect = aspect;
             this.zNear = zNear;
             this.zFar = zFar;
+        }
+
+        public Matrix4f getAsMatrix4() {
+            return new Matrix4f().initPerspective(fov, aspect, zNear, zFar);
         }
 
     }

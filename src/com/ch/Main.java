@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.ch.core.CoreEngine;
+import com.ch.core.Game;
+import com.ch.core.Scene;
 
 public class Main {
 
@@ -15,12 +17,15 @@ public class Main {
 
 //		copyResFromGD("3D Game Engine", getProjectPath());
 
-		CoreEngine engine = new CoreEngine(new TestGame());
+        Game mainGame = new Game();
+        TestGame s = new TestGame();
+        mainGame.setCurrentScene(s);
+		CoreEngine engine = new CoreEngine(mainGame);
 		String usr = System.getProperty("user.name");
 //		if (usr.toLowerCase().contains("tim"))
-//			engine.createWindow(640, 480, "3D Game Engine");
+			engine.createWindow(640, 480, "3D Game Engine");
 //		else
-			engine.createWindow(1920, 1080, "3D Game Engine");
+//			engine.createWindow(1920, 1080, "3D Game Engine");
 		engine.start();
 
 	}

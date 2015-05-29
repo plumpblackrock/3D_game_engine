@@ -1,10 +1,9 @@
 package com.ch.components;
 
-import com.ch.core.CoreEngine;
-import com.ch.core.GameObject;
-import com.ch.core.Renderer;
-import com.ch.core.Transform;
+import com.ch.core.*;
 import com.ch.rendering.light.Shader;
+import com.ch.util.DiscouragedOverride;
+import com.ch.util.OptionalOverride;
 
 /**
  * 
@@ -31,6 +30,7 @@ public abstract class GameComponent {
 	 *            the "time step": how much time has elapsed since the last game
 	 *            cycle has been processed (in seconds).
 	 */
+    @OptionalOverride
 	public void input(float dt) {
 	};
 
@@ -44,6 +44,7 @@ public abstract class GameComponent {
 	 *            the "time step": how much time has elapsed since the last game
 	 *            cycle has been processed (in seconds).
 	 */
+    @OptionalOverride
 	public void update(float dt) {
 	};
 
@@ -62,6 +63,7 @@ public abstract class GameComponent {
 	 *            rendering states as well as critical variables. See the
 	 *            {@link Renderer} class for more information.
 	 */
+    @OptionalOverride
 	public void render(Shader shader, Renderer renderer) {
 	};
 
@@ -91,18 +93,19 @@ public abstract class GameComponent {
 		return parent.getTransform();
 	}
 
-	/**
-	 * This method should not be used outside of the core libraries. The purpose
-	 * of this method is to handle special case components that need to
-	 * referenced by the {@link CoreEngine} class (or any of its critical
-	 * variables like the {@link Renderer} class), such as the
-	 * {@link com.ch.rendering.components.Camera} class.
-	 * <p>
-	 * @param engine
-	 *            a reference to the current instance of the {@link CoreEngine}
-	 *            class.
-	 */
-	public void addToEngine(CoreEngine engine) {
-	};
+//	/**
+//	 * This method should not be used outside of the core libraries. The purpose
+//	 * of this method is to handle special case components that need to
+//	 * referenced by the {@link CoreEngine} class (or any of its critical
+//	 * variables like the {@link Renderer} class), such as the
+//	 * {@link com.ch.rendering.components.Camera} class.
+//	 * <p>
+//	 * @param engine
+//	 *            a reference to the current instance of the {@link CoreEngine}
+//	 *            class.
+//	 */
+    @DiscouragedOverride
+    public void addToScene(Scene scene) {
+    };
 
 }

@@ -3,6 +3,7 @@ package com.ch;
 import com.ch.components.FreeLook;
 import com.ch.components.FreeMove;
 import com.ch.components.GameComponent;
+import com.ch.core.Renderer3D;
 import com.ch.core.Scene;
 import com.ch.core.GameObject;
 import com.ch.core.Window;
@@ -23,6 +24,8 @@ import com.tp.physics.RigidBody;
 public class TestGame extends Scene {
 
 	public void init() {
+
+        setMainRenderer(new Renderer3D());
 
 		Mesh mesh = new Mesh("plane3.obj");
 		Material material2 = new Material(new Texture("crate.png"), 1f, 1, new Texture("crate_normal.png"), new Texture("default_disp.png"), 0.03f, -0.5f);

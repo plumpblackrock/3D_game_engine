@@ -8,6 +8,7 @@ import static org.lwjgl.opengl.GL11.GL_POLYGON_MODE;
 import static org.lwjgl.opengl.GL11.glGetInteger;
 import static org.lwjgl.opengl.GL11.glPolygonMode;
 
+import com.ch.TestGame;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
@@ -25,22 +26,20 @@ public class CoreEngine {
 	/**
 	 * The instance of {@link Scene} that contains all the scenes to be renderer
 	 */
-	private Scene game;
-	private Renderer renderer;
+	private Game game;
 
 	/**
 	 * 
 	 * @param game
 	 */
-	public CoreEngine(Scene game) {
+	public CoreEngine(Game game) {
 		this.isRunning = false;
 		this.game = game;
-		game.setEngine(this);
+		this.game.setEngine(this);
 	}
 
 	public void createWindow(int width, int height, String title) {
 		Window.createWindow(width, height, title);
-		this.renderer = new Renderer();
 	}
 
 	public void start() {
@@ -63,7 +62,9 @@ public class CoreEngine {
 
 		Timer.init();
 
-		game.init();
+        game.init();
+
+        game.validate();
 
 		while (isRunning) {
 
@@ -77,6 +78,12 @@ public class CoreEngine {
                 } else if (polygonMode == GL_FILL) {
                     glPolygonMode(face, GL_LINE);
                 }
+            }
+
+            if (Input.GetKeyDown(Input.KEY_O)) {
+                this.game.setCurrentScene(new TestGame());
+                game.init();
+                game.validate();
             }
 
 			if (Window.isCloseRequested()) {
@@ -97,7 +104,7 @@ public class CoreEngine {
 
 			game.update(Timer.getDelta());
 
-			game.render(renderer);
+			game.render();
 			Window.render();
 
 		}
@@ -107,7 +114,7 @@ public class CoreEngine {
 	}
 
 	private void resize() {
-		renderer.getMainCamera().adjustToViewport(Display.getWidth(), Display.getHeight());
+		game.resize();
 	}
 
 	private void cleanUp() {
@@ -118,7 +125,4 @@ public class CoreEngine {
 		System.exit(0);
 	}
 
-	public Renderer getRenderer() {
-		return renderer;
-	}
 }

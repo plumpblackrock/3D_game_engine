@@ -42,11 +42,11 @@ public class Window {
 	}
 
 	public static int getWidth() {
-		return Display.getDisplayMode().getWidth();
+		return Display.getWidth();
 	}
 
 	public static int getHeight() {
-		return Display.getDisplayMode().getHeight();
+		return Display.getHeight();
 	}
 
 	public static String getTitle() {
