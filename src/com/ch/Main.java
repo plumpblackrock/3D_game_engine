@@ -17,9 +17,9 @@ public class Main {
 
 		CoreEngine engine = new CoreEngine(new TestGame());
 		String usr = System.getProperty("user.name");
-//		if (usr.toLowerCase().contains("tim"))
-//			engine.createWindow(640, 400, "3D Game Engine");
-//		else
+		if (usr.toLowerCase().contains("tim"))
+			engine.createWindow(640, 400, "3D Game Engine");
+		else
 			engine.createWindow(1920, 1080, "3D Game Engine");
 		engine.start();
 

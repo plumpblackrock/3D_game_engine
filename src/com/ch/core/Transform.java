@@ -108,6 +108,8 @@ public class Transform {
 		this.pos = pos;
 	}
 
+	public void addToPos(Vector3f addVec) { this.setPos(this.getPos().add(addVec)); }
+
 	public Quaternion getRot() {
 		return rot;
 	}
