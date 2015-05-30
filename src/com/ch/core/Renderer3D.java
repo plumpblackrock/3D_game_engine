@@ -2,21 +2,19 @@ package com.ch.core;
 
 import com.ch.math.Vector3f;
 import com.ch.rendering.Material;
-import com.ch.rendering.components.Camera;
 import com.ch.rendering.components.light.Light;
 import com.ch.rendering.light.Shader;
-import com.ch.util.MappedValues;
 import com.ch.util.OptionalOverride;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class Renderer3D extends Renderer {
 
     private Shader forwardAmbient;
-    private Shader debugRed, debugGreen;
+    private Shader debugShder;
+    private Vector3f debugColor;
 
     public Renderer3D() {
         super();
@@ -28,8 +26,7 @@ public class Renderer3D extends Renderer {
         addVector3f("ambient", new Vector3f(0.2f, 0.2f, 0.2f));
 
         forwardAmbient = new Shader("forward-ambient");
-        debugRed = new Shader("debug-red");
-        debugGreen = new Shader("debug-green");
+        debugShder = new Shader("debug-color");
 
         // night
         glClearColor(0.0f, 0.0f, .2f, 1f);
@@ -62,11 +59,13 @@ public class Renderer3D extends Renderer {
 
         glPolygonMode(GL_FRONT, GL_LINE);
         glLineWidth(2);
-        object.renderAll(debugRed, this);
+        setDebugColor(new Vector3f(1, 0, 0));
+        object.renderAll(debugShder, this);
         glLineWidth(1);
         glPolygonMode(GL_FRONT, GL_POINT);
         glPointSize(4);
-        object.renderAll(debugGreen, this);
+        setDebugColor(new Vector3f(0, 1, 0));
+        object.renderAll(debugShder, this);
         glPointSize(1);
         glPolygonMode(GL_FRONT, GL_FILL);
 
@@ -84,6 +83,10 @@ public class Renderer3D extends Renderer {
         glDepthFunc(GL_LESS);
         glDisable(GL_BLEND);
 
+    }
+
+    public void setDebugColor(Vector3f debugColor) {
+        addVector3f("debug_color", debugColor);
     }
 
 }

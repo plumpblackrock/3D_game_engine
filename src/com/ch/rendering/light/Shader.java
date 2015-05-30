@@ -172,7 +172,7 @@ public class Shader {
 	}
 
 	private HashMap<String, ArrayList<GLSLStruct>> findUniformStructs(String shaderText) {
-		HashMap<String, ArrayList<GLSLStruct>> result = new HashMap<String, ArrayList<GLSLStruct>>();
+		HashMap<String, ArrayList<GLSLStruct>> result = new HashMap<>();
 
 		final String STRUCT_KEYWORD = "struct";
 		int structStartLocation = shaderText.indexOf(STRUCT_KEYWORD);
