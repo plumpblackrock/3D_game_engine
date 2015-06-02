@@ -2,6 +2,7 @@ package com.ch.rendering;
 
 import com.ch.IO.IndexedModel;
 import com.ch.IO.OBJModel;
+import com.ch.math.Vector2f;
 import com.ch.math.Vector3f;
 import com.ch.resource.MeshResource;
 import com.ch.util.Util;
@@ -40,6 +41,23 @@ public class Mesh {
 		fileName = "";
 		addVertices(vertices, indices, calcNormals);
 	}
+
+    public static Mesh quad2D(Vector2f center, Vector2f dimensions) {
+
+        Vector2f halfSides = dimensions.mul(.5f);
+
+        Vertex[] vertices = {
+                new Vertex(center.add(halfSides).as3DVector(), new Vector2f(1, 1)),
+                new Vertex(center.add(-halfSides.getX(), halfSides.getY()).as3DVector(), new Vector2f(0, 1)),
+                new Vertex(center.sub(halfSides).as3DVector(), new Vector2f(0, 0)),
+                new Vertex(center.add(halfSides.getX(), -halfSides.getY()).as3DVector(), new Vector2f(1, 0)),
+        };
+
+        int[] indices = { 2, 0, 3, 2, 1, 0 };
+
+        return new Mesh(vertices, indices);
+
+    }
 
 	@Override
 	protected void finalize() {

@@ -52,6 +52,10 @@ public class Vector2f {
 		return new Vector2f(x + r, y + r);
 	}
 
+    public Vector2f add(float x, float y) {
+        return new Vector2f(this.x + x, this.y + y);
+    }
+
 	public Vector2f sub(Vector2f r) {
 		return new Vector2f(x - r.getX(), y - r.getY());
 	}
@@ -94,6 +98,10 @@ public class Vector2f {
 		set(r.getX(), r.getY());
 		return this;
 	}
+
+    public Vector3f as3DVector() {
+        return new Vector3f(x, y, 0);
+    }
 
 	public float getX() {
 		return x;

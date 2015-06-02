@@ -23,7 +23,13 @@ public abstract class Renderer extends MappedValues {
 
     public Renderer() {
         samplerMap = new HashMap<>();
+        lights = new ArrayList<>();
+
+        init();
+
     }
+
+    public abstract void init();
 
     public abstract void updateUniformStruct(Transform transform, Material material, Shader shader, String uniformName, String uniformType);
 

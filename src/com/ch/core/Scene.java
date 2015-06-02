@@ -10,12 +10,10 @@ public abstract class Scene {
 
     @OptionalOverride
 	public void init() {
-
     }
 
     @OptionalOverride
     public void exitScene() {
-
     }
 
 	public void input(float delta) {

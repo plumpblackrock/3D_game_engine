@@ -15,10 +15,15 @@ public class Main {
 
 	public static void main(String[] args) {
 
+//        int x;
+//        for (x = 20; x --> 0;) {
+//            System.out.println(x);
+//        }
+
 //		copyResFromGD("3D Game Engine", getProjectPath());
 
         Game mainGame = new Game();
-        TestGame s = new TestGame();
+        Scene s = new Test2DScene();
         mainGame.setCurrentScene(s);
 		CoreEngine engine = new CoreEngine(mainGame);
 		String usr = System.getProperty("user.name");
@@ -87,7 +92,7 @@ public class Main {
 	}
 	
 	public static final String getProjectPath() {
-		
+
 		return new File("").getAbsolutePath();
 		
 	}
