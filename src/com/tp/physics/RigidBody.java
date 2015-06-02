@@ -10,17 +10,15 @@ public class RigidBody extends GameComponent {
 
 	private Vector3f velocity;
 	private Vector3f netForce;
-	public static float gameTime = 0.00f;//TEST //TODO
 	private Quaternion angularVelocity;
 	private Quaternion netTorque;
 	
 	private float inverseMass;
 
-	//This constructor should only be used for tests!
+	//This constructor should only be used for tests for now!
 	public RigidBody() {
 		
-//		this.velocity = new Vector3f(((float) Math.random() * 10.0f) -5.0f, 
-//				((float) Math.random() * 10.0f), ((float) Math.random() * 10.0f) -5.0f);
+
 		this.velocity = new Vector3f(0.0f, 0.0f, 0.0f );
 		this.netForce = new Vector3f(0,0,0);
 
@@ -47,23 +45,25 @@ public class RigidBody extends GameComponent {
 		Derivative c = IntegrationHelper.evaluateRK4(this, dt * 0.5f, b);
 		Derivative d = IntegrationHelper.evaluateRK4(this, dt, c);
 
-		Derivative avg = Derivative.rk4Avg(a, b, c, d);//performs an average of each of the RK4 iterations
+		Derivative avg = IntegrationHelper.rk4Avg(a, b, c, d);//performs an average of each of the RK4 iterations
 
 		this.getTransform().addToPos(avg.vel.mul(dt));
 		this.addToVel(avg.accel.mul(dt));
-
 	}
 	
 	@Override
 	public void update(float dt) {
-		gameTime += dt;
 
 		this.integrate(dt);
+		//TODO - @ch how should i allow for an option to use Euler integration in place of RK4?  may not be necessary but it's implemented and all already
+		//maybe i should move the eulerIntegrate method (and the integrate method for that matter) to the IntegrationHelper?
+
+
 		//this.eulerIntegrate(dt);
 
 	}
 
-	public void eulerIntegrate(float dt) {
+	public void eulerIntegrate(RigidBody rb, float dt) {
 		this.getTransform().getPos().addSelf(this.getVelocity().mul(dt));
 		this.addToVel(this.getAcceleration().mul(dt));
 	}
@@ -74,7 +74,7 @@ public class RigidBody extends GameComponent {
 
 	/**
 	 * TODO - Change this to use a forceGenerator or something like that (soon)
-	 * 		ALSO: try and make this adjustable (maybe devs want gravity to be different for each object or something.)
+	 * 		ALSO: try and make this adjustable (maybe devs want gravity to be different on different planets or something.)
 	 */
 	public void addGravity() {
 
@@ -92,8 +92,9 @@ public class RigidBody extends GameComponent {
 	}
 
 	/**
-	 * This method takes a vector 'addVec' and adds it to the velocity vector (this.velocity)
-	 * @param addVec - The vector that will be added to the velocity vector.
+	 * This method adds a vector <b>addVec</b> to the velocity vector (<b>this.velocity</b>) and assigns it to
+	 * the velocity vector.
+	 * @param addVec The vector that will be added to the velocity vector.
 	 */
 	public void addToVel(Vector3f addVec) { this.velocity.addSelf(addVec); }
 
@@ -115,15 +116,17 @@ public class RigidBody extends GameComponent {
 
 
 	/**
-	 * This method is used to calculate the acceleration on a body at a given moment in the timespan between two frames.
-	 * @param time - we are 'time' seconds into the current frame
+	 * This method is used to calculate the acceleration on a body at a given moment in the timedelta between two frames.
+	 * @param time We are <b>time</b> seconds into the current frame
 	 * @return the acceleration of the rigid body at that particular moment
 	 */
-	public Vector3f calculateAcceleration(float time, Vector3f someVector) {//TODO - near end of project
+	public Vector3f calculateAcceleration(float time) {
+
 
 		return this.getAcceleration();
 
-		//TODO
+		//TODO - parameters such as currentVel, currentPos, currentAngVel and currentRot should be passed into this somehow
+		//	in order to calculate the velocity
 		//"it is crucial that you structure your simulation in such a way that it can calculate the acceleration or
 		// force derivatives completely from inside this method given the current state and time, otherwise your
 		// simulation cannot work with the RK4 integrator."
