@@ -22,6 +22,14 @@ public class Material extends MappedValues {
 		addFloat("dispMapBias", -baseBias + baseBias * dispMapOffset);
 	}
 
+    public Material(Texture diffuse, float specularIntensity, float specularPower) {
+        this(diffuse, specularIntensity, specularPower, new Texture("default_normal.jpg"), new Texture("default_disp.png"), 0, 0);
+    }
+
+    public Material(Texture diffuse) {
+        this(diffuse, 1, 1);
+    }
+
 	public void addTexture(String name, Texture texture) {
 		textureHashMap.put(name, texture);
 	}

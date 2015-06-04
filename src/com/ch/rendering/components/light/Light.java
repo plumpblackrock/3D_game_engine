@@ -1,7 +1,7 @@
 package com.ch.rendering.components.light;
 
 import com.ch.components.GameComponent;
-import com.ch.core.CoreEngine;
+import com.ch.core.scene.Scene;
 import com.ch.math.Vector3f;
 import com.ch.rendering.light.Shader;
 
@@ -17,8 +17,8 @@ public class Light extends GameComponent {
 	}
 
 	@Override
-	public void addToEngine(CoreEngine engine) {
-		engine.getRenderer().addLight(this);
+	public void addToScene(Scene scene) {
+		scene.getMainRenderer().addLight(this);
 	}
 
 	public void setShader(Shader shader) {

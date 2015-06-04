@@ -1,7 +1,7 @@
 package com.ch.rendering.components;
 
 import com.ch.components.GameComponent;
-import com.ch.core.Renderer;
+import com.ch.core.renderer.Renderer;
 import com.ch.rendering.Material;
 import com.ch.rendering.Mesh;
 import com.ch.rendering.light.Shader;
@@ -17,9 +17,9 @@ public class MeshRenderer extends GameComponent {
 	}
 
 	@Override
-	public void render(Shader shader, Renderer renderingEngine) {
+	public void render(Shader shader, Renderer renderer) {
 		shader.bind();
-		shader.updateUniforms(getTransform(), m_material, renderingEngine);
+		shader.updateUniforms(getTransform(), m_material, renderer);
 		m_mesh.draw();
 	}
 	
