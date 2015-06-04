@@ -181,10 +181,13 @@ public class TestGame extends Scene {
 		// .addComponent(new LookAtComponent())
 				.addComponent(new MeshRenderer(tempMesh, material2));
 
-		addObject(
+		GameObject cameraObject = new GameObject().addComponent(new FreeLook(0.3f)).addComponent(new FreeMove(6.0f))
+				.addComponent(new Camera(new Matrix4f().initPerspective((float) Math.toRadians(70.0f), (float) Window.getWidth() / (float) Window.getHeight(), 0.01f, 1000.0f)));
+		addObject(cameraObject);
+
+		cameraObject.getTransform().getPos().set(0.0f, 5.0f, -9.91f);
 		// AddObject(
-		new GameObject().addComponent(new FreeLook(0.3f)).addComponent(new FreeMove(6.0f))
-				.addComponent(new Camera(new Matrix4f().initPerspective((float) Math.toRadians(70.0f), (float) Window.getWidth() / (float) Window.getHeight(), 0.01f, 1000.0f))));
+
 
 		addObject(testMesh3);
 
@@ -195,13 +198,13 @@ public class TestGame extends Scene {
 		// int i;
 		// for (i = 0; i < 7; i++) {
 
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 1; i++) {
 
 			MeshRenderer r = new MeshRenderer(new Mesh("cube.obj"), material2);
 //5629
 			GameObject go = new GameObject().addComponent(r);
 
-			go.getTransform().getPos().set(0, 1.0f, 0);
+			go.getTransform().getPos().set(0, 10.0f, 0);
 			go.addComponent(new RigidBody());
 			
 			addObject(go);
