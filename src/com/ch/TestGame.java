@@ -31,7 +31,7 @@ public class TestGame extends Scene {
 
 		Material material2 = new Material(new Texture("crate.png"), 1f, 1, new Texture("crate_normal.png"), new Texture("default_disp.png"), 0.03f, -0.5f);
 
-		Material material1 = new Material(new Texture("bricks2_s.jpg"), .3f, 1, new Texture("bricks2_normal_s.jpg"), new Texture("bricks2_disp_s.jpg"), .03f, -.50f);
+		Material material1 = new Material(new Texture("bricks2.jpg"), .3f, 1, new Texture("bricks2_normal.jpg"), new Texture("bricks2_disp.jpg"), .03f, -.50f);
 
 		Material material = new Material(new Texture("bricks.jpg"), .3f, 1, new Texture("bricks_normal.jpg"), new Texture("bricks_disp.png"), 0.04f, -1.0f);
 
