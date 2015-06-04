@@ -1,5 +1,9 @@
-package com.ch.core;
+package com.ch.core.scene;
 
+import com.ch.core.Game;
+import com.ch.core.GameObject;
+import com.ch.core.renderer.Renderer;
+import com.ch.core.Window;
 import com.ch.util.OptionalOverride;
 
 public abstract class Scene {

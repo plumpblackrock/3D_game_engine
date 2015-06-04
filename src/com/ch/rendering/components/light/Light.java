@@ -1,8 +1,7 @@
 package com.ch.rendering.components.light;
 
 import com.ch.components.GameComponent;
-import com.ch.core.CoreEngine;
-import com.ch.core.Scene;
+import com.ch.core.scene.Scene;
 import com.ch.math.Vector3f;
 import com.ch.rendering.light.Shader;
 

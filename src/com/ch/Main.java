@@ -9,7 +9,7 @@ import java.io.OutputStream;
 
 import com.ch.core.CoreEngine;
 import com.ch.core.Game;
-import com.ch.core.Scene;
+import com.ch.core.scene.Scene;
 
 public class Main {
 
@@ -23,7 +23,7 @@ public class Main {
 //		copyResFromGD("3D Game Engine", getProjectPath());
 
         Game mainGame = new Game();
-        Scene s = new Test2DScene();
+        Scene s = new TestGame();
         mainGame.setCurrentScene(s);
 		CoreEngine engine = new CoreEngine(mainGame);
 		String usr = System.getProperty("user.name");

@@ -1,6 +1,8 @@
 package com.ch.core;
 
 import com.ch.components.GameComponent;
+import com.ch.core.renderer.Renderer;
+import com.ch.core.scene.Scene;
 import com.ch.rendering.light.Shader;
 
 import java.util.ArrayList;

@@ -9,7 +9,7 @@ import static org.lwjgl.opengl.GL11.glGetInteger;
 import static org.lwjgl.opengl.GL11.glPolygonMode;
 
 import com.ch.TestGame;
-import org.lwjgl.input.Keyboard;
+import com.ch.core.scene.Scene;
 import org.lwjgl.opengl.Display;
 
 import com.ch.input.Input;

@@ -1,11 +1,9 @@
 package com.ch.rendering.components;
 
-import com.ch.core.Scene;
-import com.ch.util.Legacy;
+import com.ch.core.scene.Scene;
 import org.lwjgl.opengl.GL11;
 
 import com.ch.math.Matrix4f;
-import com.ch.math.Vector3f;
 
 public class Camera3D extends Camera {
 

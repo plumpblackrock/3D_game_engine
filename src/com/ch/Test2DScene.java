@@ -1,33 +1,35 @@
 package com.ch;
 
-import com.ch.components.FreeLook;
-import com.ch.components.FreeMove;
+import com.ch.components.Free2DMove;
 import com.ch.core.*;
+import com.ch.core.renderer.Renderer2D;
+import com.ch.core.scene.Scene;
+import com.ch.math.Quaternion;
 import com.ch.math.Vector2f;
+import com.ch.math.Vector3f;
 import com.ch.rendering.Material;
 import com.ch.rendering.Mesh;
 import com.ch.rendering.Texture;
 import com.ch.rendering.components.Camera2D;
-import com.ch.rendering.components.Camera3D;
 import com.ch.rendering.components.MeshRenderer;
-import com.ch.rendering.light.Shader;
 
 public class Test2DScene extends Scene {
 
     public void init() {
 
-        this.setMainRenderer(new Renderer2D());
+        setMainRenderer(new Renderer2D());
 
-        GameObject go = new GameObject();
+        Material material = new Material(new Texture("bricks.jpg"));
 
-        Mesh quad = Mesh.quad2D(new Vector2f(0, 0), new Vector2f(300, 220));
+        GameObject testMesh3 = new GameObject().addComponent(new Free2DMove(3))
+                .addComponent(new MeshRenderer(Mesh.quad2D(new Vector2f(0, 0), new Vector2f(1, 1)), material));
 
-        go.addComponent(new MeshRenderer(quad, new Material(new Texture("bricks.jpg"), .3f, 1, new Texture("bricks_normal.jpg"), new Texture("bricks_disp.png"), 0.04f, -1.0f)));
+        addObject(new GameObject().addComponent(new Camera2D(Window.getWidth(), Window.getHeight(), 1, -1, 100)));
 
-        addObject(go);
+        addObject(testMesh3);
 
-        addObject(new GameObject().addComponent(new Camera2D(Window.getWidth(), Window.getHeight(), 10, -10)));
-
+        testMesh3.getTransform().getPos().set(0, 0, 0);
+        testMesh3.getTransform().setRot(new Quaternion(new Vector3f(1, 0, 0), (float) Math.toRadians(0.0f)));
     }
 
 }

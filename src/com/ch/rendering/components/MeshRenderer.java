@@ -1,7 +1,7 @@
 package com.ch.rendering.components;
 
 import com.ch.components.GameComponent;
-import com.ch.core.Renderer;
+import com.ch.core.renderer.Renderer;
 import com.ch.rendering.Material;
 import com.ch.rendering.Mesh;
 import com.ch.rendering.light.Shader;

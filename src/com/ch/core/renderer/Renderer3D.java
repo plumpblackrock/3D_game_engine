@@ -1,19 +1,18 @@
-package com.ch.core;
+package com.ch.core.renderer;
 
+import com.ch.core.GameObject;
+import com.ch.core.Transform;
 import com.ch.math.Vector3f;
 import com.ch.rendering.Material;
 import com.ch.rendering.components.light.Light;
 import com.ch.rendering.light.Shader;
 import com.ch.util.OptionalOverride;
 
-import java.util.ArrayList;
-
 import static org.lwjgl.opengl.GL11.*;
 
 public class Renderer3D extends Renderer {
 
     private Shader forwardAmbient;
-    private Shader debugShder;
 
     public Renderer3D() {
         super();
@@ -26,10 +25,9 @@ public class Renderer3D extends Renderer {
         samplerMap.put("normalMap", 1);
         samplerMap.put("dispMap", 2);
 
-        addVector3f("ambient", new Vector3f(0.0f, 0.0f, 0.0f));
+        addVector3f("ambient", new Vector3f(0.1f, 0.1f, 0.1f));
 
         forwardAmbient = new Shader("forward-ambient");
-        debugShder = new Shader("debug-color");
 
         glClearColor(0.0f, 0.0f, .2f, 1f);
 
@@ -55,41 +53,57 @@ public class Renderer3D extends Renderer {
         }
     }
 
-    @Override
-    public void render(GameObject object) {
-
+    public void clearScreen() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
 
-        glPolygonMode(GL_FRONT, GL_LINE);
-        glLineWidth(2);
-        setDebugColor(new Vector3f(1, 0, 0));
-        object.renderAll(debugShder, this);
-        glLineWidth(1);
-        glPolygonMode(GL_FRONT, GL_POINT);
-        glPointSize(4);
-        setDebugColor(new Vector3f(0, 1, 0));
-        object.renderAll(debugShder, this);
-        glPointSize(1);
-        glPolygonMode(GL_FRONT, GL_FILL);
+    public void preSceneRender(GameObject object) {
+    }
+
+    public void enableStatesForRendering() {
+    }
+
+    public void renderScene(GameObject object) {
+
+        enableStatesForRendering();
 
         object.renderAll(forwardAmbient, this);
 
+        disableStatesForRendering();
+
+    }
+
+    public void disableStatesForRendering() {
+    }
+
+    public void preLightingRender(GameObject object) {
+    }
+
+    public void enableStatesForLighting() {
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE);
         glDepthFunc(GL_EQUAL);
+    }
+
+    public void renderWithLighting(GameObject object) {
+
+        enableStatesForLighting();
 
         for (Light light : lights) {
             activeLight = light;
             object.renderAll(light.getShader(), this);
         }
 
-        glDepthFunc(GL_LESS);
-        glDisable(GL_BLEND);
+        disableStatesForLighting();
 
     }
 
-    public void setDebugColor(Vector3f debugColor) {
-        addVector3f("debug_color", debugColor);
+    public void disableStatesForLighting() {
+        glDepthFunc(GL_LESS);
+        glDisable(GL_BLEND);
+    }
+
+    public void postLightingRender(GameObject object) {
     }
 
 }

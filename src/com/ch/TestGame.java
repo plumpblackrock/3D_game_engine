@@ -3,26 +3,20 @@ package com.ch;
 import com.ch.components.FreeLook;
 import com.ch.components.FreeMove;
 import com.ch.components.GameComponent;
-import com.ch.core.Renderer3D;
-import com.ch.core.Scene;
+import com.ch.core.renderer.Renderer3D;
+import com.ch.core.scene.Scene;
 import com.ch.core.GameObject;
 import com.ch.core.Window;
-import com.ch.math.Matrix4f;
 import com.ch.math.Quaternion;
-import com.ch.math.Vector2f;
 import com.ch.math.Vector3f;
 import com.ch.rendering.Material;
 import com.ch.rendering.Mesh;
 import com.ch.rendering.Texture;
-import com.ch.rendering.components.Camera;
-import com.ch.rendering.components.Camera2D;
 import com.ch.rendering.components.Camera3D;
 import com.ch.rendering.components.MeshRenderer;
 import com.ch.rendering.components.light.DirectionalLight;
 import com.ch.rendering.components.light.PointLight;
-import com.ch.rendering.components.light.SpotLight;
 import com.ch.rendering.light.Attenuation;
-import com.tp.physics.RigidBody;
 
 public class TestGame extends Scene {
 
@@ -34,13 +28,13 @@ public class TestGame extends Scene {
 
 		Material material2 = new Material(new Texture("crate.png"), 1f, 1, new Texture("crate_normal.png"), new Texture("default_disp.png"), 0.03f, -0.5f);
 
-		Material material1 = new Material(new Texture("bricks2.jpg"), 100f, 1000, new Texture("bricks2_normal.png"), new Texture("bricks2_disp.jpg"), .03f, -.50f);
+		Material material1 = new Material(new Texture("bricks2_s.jpg"), .3f, 1, new Texture("bricks2_normal_s.jpg"), new Texture("bricks2_disp_s.jpg"), .03f, -.50f);
 
 		Material material = new Material(new Texture("bricks.jpg"), .3f, 1, new Texture("bricks_normal.jpg"), new Texture("bricks_disp.png"), 0.04f, -1.0f);
 
 		Mesh tempMesh = new Mesh("crate.obj");
 
-		MeshRenderer meshRenderer = new MeshRenderer(mesh, material);
+		MeshRenderer meshRenderer = new MeshRenderer(mesh, material1);
 
 		GameObject planeObject = new GameObject();
 		planeObject.addComponent(meshRenderer);
@@ -48,11 +42,9 @@ public class TestGame extends Scene {
 		// planeObject.getTransform().getScale().set(3, 3, 3);
 
 		GameObject directionalLightObject = new GameObject();
-		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), .2f);
+		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 1f);
 		directionalLightObject.addComponent(directionalLight);
-		directionalLight.getTransform().setRot(new Quaternion(new Vector3f(.8f, (float) Math.cos(10), 0), (float) Math.toRadians(-30)));
-
-		// disable for night time
+		directionalLight.getTransform().rotate(new Vector3f(0, 0, 1), (float) Math.toRadians(0));
 		 addObject(directionalLightObject);
 		
 //		GameObject pointLightObject = new GameObject();

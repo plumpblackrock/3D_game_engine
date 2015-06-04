@@ -1,8 +1,9 @@
-package com.ch.core;
+package com.ch.core.renderer;
 
+import com.ch.core.GameObject;
+import com.ch.core.Transform;
 import com.ch.math.Vector3f;
 import com.ch.rendering.Material;
-import com.ch.rendering.components.Camera2D;
 import com.ch.rendering.components.light.Light;
 import com.ch.rendering.light.Shader;
 import com.ch.util.OptionalOverride;
@@ -33,7 +34,6 @@ public class Renderer2D extends Renderer {
         glFrontFace(GL_CW);
         glCullFace(GL_BACK);
         glEnable(GL_CULL_FACE);
-//        glEnable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);
 
     }
@@ -52,27 +52,57 @@ public class Renderer2D extends Renderer {
         }
     }
 
-    @Override
-    public void render(GameObject object) {
-
+    public void clearScreen() {
         glClear(GL_COLOR_BUFFER_BIT);
+    }
 
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    public void preSceneRender(GameObject object) {
+    }
+
+    public void enableStatesForRendering() {
+    }
+
+    public void renderScene(GameObject object) {
+
+        enableStatesForRendering();
 
         object.renderAll(forwardAmbient, this);
 
-//        glEnable(GL_BLEND);
-//        glBlendFunc(GL_ONE, GL_ONE);
-//        glDepthFunc(GL_EQUAL);
-//
-//        for (Light light : lights) {
-//            activeLight = light;
-//            object.renderAll(light.getShader(), this);
-//        }
-//
-//        glDepthFunc(GL_LESS);
-//        glDisable(GL_BLEND);
+        disableStatesForRendering();
 
+    }
+
+    public void disableStatesForRendering() {
+    }
+
+    public void preLightingRender(GameObject object) {
+    }
+
+    public void enableStatesForLighting() {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE);
+        glDepthFunc(GL_EQUAL);
+    }
+
+    public void renderWithLighting(GameObject object) {
+
+        enableStatesForLighting();
+
+        for (Light light : lights) {
+            activeLight = light;
+            object.renderAll(light.getShader(), this);
+        }
+
+        disableStatesForLighting();
+
+    }
+
+    public void disableStatesForLighting() {
+        glDepthFunc(GL_LESS);
+        glDisable(GL_BLEND);
+    }
+
+    public void postLightingRender(GameObject object) {
     }
 
 }

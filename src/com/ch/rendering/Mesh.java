@@ -18,10 +18,10 @@ public class Mesh {
 
 	private static HashMap<String, MeshResource> loadedModels = new HashMap<String, MeshResource>();
 	private MeshResource resource;
-	private String fileName;
+	private String name;
 
 	public Mesh(String fileName) {
-		this.fileName = fileName;
+		this.name = fileName;
 		MeshResource oldResource = loadedModels.get(fileName);
 
 		if (oldResource != null) {
@@ -33,12 +33,12 @@ public class Mesh {
 		}
 	}
 
-	public Mesh(Vertex[] vertices, int[] indices) {
-		this(vertices, indices, false);
+	public Mesh(Vertex[] vertices, int[] indices, String name) {
+		this(vertices, indices, false, name);
 	}
 
-	public Mesh(Vertex[] vertices, int[] indices, boolean calcNormals) {
-		fileName = "";
+	public Mesh(Vertex[] vertices, int[] indices, boolean calcNormals, String name) {
+		this.name = name;
 		addVertices(vertices, indices, calcNormals);
 	}
 
@@ -55,14 +55,14 @@ public class Mesh {
 
         int[] indices = { 2, 0, 3, 2, 1, 0 };
 
-        return new Mesh(vertices, indices);
+        return new Mesh(vertices, indices, true, "quad2 " + center + " " + dimensions);
 
     }
 
 	@Override
 	protected void finalize() {
-		if (resource.removeReference() && !fileName.isEmpty()) {
-			loadedModels.remove(fileName);
+		if (resource.removeReference() && !name.isEmpty()) {
+			loadedModels.remove(name);
 		}
 	}
 

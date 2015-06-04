@@ -1,6 +1,8 @@
 package com.ch.core;
 
 
+import com.ch.core.scene.Scene;
+
 public class Game {
 
 	protected Scene currentScene;

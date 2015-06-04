@@ -1,6 +1,8 @@
 package com.ch.components;
 
 import com.ch.core.*;
+import com.ch.core.renderer.Renderer;
+import com.ch.core.scene.Scene;
 import com.ch.rendering.light.Shader;
 import com.ch.util.DiscouragedOverride;
 import com.ch.util.OptionalOverride;
