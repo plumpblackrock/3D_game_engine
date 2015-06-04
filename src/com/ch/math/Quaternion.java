@@ -188,6 +188,36 @@ public class Quaternion {
 		return this;
 	}
 
+	/**
+	 * Just take a rusty nail and make sure that goes far up your asshole before trying to decode this bullshit of a method.
+	 * Good luck.
+	 * @param eulerAngles
+	 * @return
+	 */
+	public Quaternion fromEuler(Vector3f eulerAngles) {
+		float phi= eulerAngles.getX();
+		float theta= eulerAngles.getY();
+		float yota= eulerAngles.getZ();
+
+		//eulerAngles = [phi, theta, yota]
+
+		//locally store all cos/sin so we don't have to calculate them twice each
+		float cos_half_phi = (float) Math.cos(phi / 2.0f);
+		float sin_half_phi = (float) Math.sin(phi / 2.0f);
+		float cos_half_theta = (float) Math.cos(theta / 2.0f);
+		float sin_half_theta = (float) Math.sin(theta / 2.0f);
+		float cos_half_yota = (float) Math.cos(yota / 2.0f);
+		float sin_half_yota = (float) Math.sin(yota / 2.0f);
+
+		float q0 = cos_half_phi * cos_half_theta * cos_half_yota + sin_half_phi * sin_half_theta * sin_half_yota;
+		float q1 = sin_half_phi * cos_half_theta * cos_half_yota - cos_half_phi * sin_half_theta * sin_half_yota;
+		float q2 = cos_half_phi * sin_half_theta * cos_half_yota + sin_half_phi * cos_half_theta * sin_half_yota;
+		float q3 = cos_half_phi * cos_half_theta * sin_half_yota - sin_half_phi * sin_half_theta * cos_half_yota;
+
+		return new Quaternion(q0, q1, q2, q3);
+
+	}
+
 	public Quaternion set(Quaternion r) {
 		set(r.getX(), r.getY(), r.getZ(), r.getW());
 		return this;
