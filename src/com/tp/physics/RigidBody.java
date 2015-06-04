@@ -47,12 +47,12 @@ public class RigidBody extends GameComponent {
 	public void update(float dt) {
 //		System.out.println(gameTime);
 		gameTime += dt;
-		
+
 		if (gameTime >= 15)
 			this.updatePosition(dt);
-		
+
 		this.updateVelocity(dt);
-				
+
 //		this.getTransform().getPos().addSelf(velocity.mul(dt));
 		
 		//TEST \/
@@ -66,13 +66,13 @@ public class RigidBody extends GameComponent {
 //			this.velocity.setX(- this.velocity.getX());
 //			this.getTransform().getPos().setX(-7.0f);
 //		}
-		
+
 		//Y
 		if (this.getTransform().getPos().getY() < 0.0f ) {
 			this.velocity.setY(- this.velocity.getY());
 			this.getTransform().getPos().setY(0.0f);
 		}
-		
+
 		//Z
 //		if (this.getTransform().getPos().getZ() > 7) {
 //			this.velocity.setZ(- this.velocity.getZ());
@@ -83,11 +83,11 @@ public class RigidBody extends GameComponent {
 //			this.velocity.setZ(- this.velocity.getZ());
 //			this.getTransform().getPos().setZ(-7.0f);
 //		}
-//		
+//
 			
 			
 	}
-	
+
 	/**
 	 * Updates the position after a time interval dt.  This is using Euler Integration and should be improved later
 	 * @param dt
