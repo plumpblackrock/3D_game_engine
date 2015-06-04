@@ -7,16 +7,19 @@ import com.ch.core.renderer.Renderer3D;
 import com.ch.core.scene.Scene;
 import com.ch.core.GameObject;
 import com.ch.core.Window;
+import com.ch.math.Matrix4f;
 import com.ch.math.Quaternion;
 import com.ch.math.Vector3f;
 import com.ch.rendering.Material;
 import com.ch.rendering.Mesh;
 import com.ch.rendering.Texture;
+import com.ch.rendering.components.Camera;
 import com.ch.rendering.components.Camera3D;
 import com.ch.rendering.components.MeshRenderer;
 import com.ch.rendering.components.light.DirectionalLight;
 import com.ch.rendering.components.light.PointLight;
 import com.ch.rendering.light.Attenuation;
+import com.tp.physics.RigidBody;
 
 public class TestGame extends Scene {
 
@@ -180,8 +183,24 @@ public class TestGame extends Scene {
 		// .addComponent(new LookAtComponent())
 				.addComponent(new MeshRenderer(tempMesh, material2));
 
-		addObject(new GameObject().addComponent(new FreeLook(0.3f)).addComponent(new FreeMove(6.0f))
-				.addComponent(new Camera3D((float) Math.toRadians(70.0f), (float) Window.getWidth() / (float) Window.getHeight(), 0.01f, 1000.0f)));
+
+		GameObject cameraObject = new GameObject().addComponent(new FreeLook(0.3f)).addComponent(new FreeMove(6.0f))
+				.addComponent(new Camera(new Matrix4f().initPerspective((float) Math.toRadians(70.0f), (float) Window.getWidth() / (float) Window.getHeight(), 0.01f, 1000.0f)) {
+					@Override
+					public Matrix4f calculateProjectionMatrix(CameraStruct data) {
+						return null;
+					}
+
+					@Override
+					public void adjustToViewport(int width, int height) {
+
+					}
+				});
+		addObject(cameraObject);
+
+		cameraObject.getTransform().getPos().set(0.0f, 5.0f, -9.91f);
+		// AddObject(
+
 
 //        addObject(new GameObject().addComponent(new FreeLook(0.3f)).addComponent(new FreeMove(6.0f))
 //                        .addComponent(new Camera2D(Window.getWidth() / 100, Window.getHeight() / 100, 100, -100)));
@@ -195,18 +214,20 @@ public class TestGame extends Scene {
 		// int i;
 		// for (i = 0; i < 7; i++) {
 
-//		for (int i = 0; i < 30; i++) {
-//
-//			MeshRenderer r = new MeshRenderer(new Mesh("cube.obj"), material2);
-////5629
-//			GameObject go = new GameObject().addComponent(r);
-//
-//			go.getTransform().getPos().set(0, 1.0f, 0);
-//			go.addComponent(new RigidBody());
-//
-//			addObject(go);
-//
-//		}
+
+		for (int i = 0; i < 1; i++) {
+
+			MeshRenderer r = new MeshRenderer(new Mesh("cube.obj"), material2);
+//5629
+			GameObject go = new GameObject().addComponent(r);
+
+			go.getTransform().getPos().set(0, 10.0f, 0);
+			go.addComponent(new RigidBody());
+			
+			addObject(go);
+
+		}
+
 
 		GameComponent c;
 

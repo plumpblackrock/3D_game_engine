@@ -27,10 +27,11 @@ public class Main {
         mainGame.setCurrentScene(s);
 		CoreEngine engine = new CoreEngine(mainGame);
 		String usr = System.getProperty("user.name");
-//		if (usr.toLowerCase().contains("tim"))
-			engine.createWindow(640, 480, "3D Game Engine");
-//		else
-//			engine.createWindow(1920, 1080, "3D Game Engine");
+
+		if (usr.toLowerCase().contains("tim"))
+			engine.createWindow(640, 400, "3D Game Engine");
+		else
+			engine.createWindow(1920, 1080, "3D Game Engine");
 		engine.start();
 
 	}
