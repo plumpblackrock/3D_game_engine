@@ -19,7 +19,7 @@ public class Transform {
 
 	public Transform() {
 		pos = new Vector3f(0, 0, 0);
-		rot = new Quaternion(0, 0, 0, 1);
+		rot = new Quaternion(1, 0, 0, 0);
 		scale = new Vector3f(1, 1, 1);
 
 		parentMatrix = new Matrix4f().initIdentity();
@@ -92,7 +92,7 @@ public class Transform {
 	}
 
 	public Quaternion getTransformedRot() {
-		Quaternion parentRotation = new Quaternion(0, 0, 0, 1);
+		Quaternion parentRotation = new Quaternion(1, 0, 0, 0);
 
 		if (parent != null)
 			parentRotation = parent.getTransformedRot();

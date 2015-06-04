@@ -11,11 +11,11 @@ public class Quaternion {
 		this(0, 0, 0, 0);
 	}
 	
-	public Quaternion(float x, float y, float z, float w) {
+	public Quaternion(float w, float x, float y, float z) {
+		this.w = w;
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.w = w;
 	}
 
 	public Quaternion(Vector3f axis, float angle) {
@@ -35,15 +35,15 @@ public class Quaternion {
 	public Quaternion normalized() {
 		float length = length();
 
-		return new Quaternion(x / length, y / length, z / length, w / length);
+		return new Quaternion(w / length, x / length, y / length, z / length);
 	}
 
 	public Quaternion conjugate() {
-		return new Quaternion(-x, -y, -z, w);
+		return new Quaternion(w, -x, -y, -z);
 	}
 
 	public Quaternion mul(float r) {
-		return new Quaternion(x * r, y * r, z * r, w * r);
+		return new Quaternion(w * r, x * r, y * r, z * r);
 	}
 
 	public Quaternion mul(Quaternion r) {
@@ -52,7 +52,7 @@ public class Quaternion {
 		float y_ = y * r.getW() + w * r.getY() + z * r.getX() - x * r.getZ();
 		float z_ = z * r.getW() + w * r.getZ() + x * r.getY() - y * r.getX();
 
-		return new Quaternion(x_, y_, z_, w_);
+		return new Quaternion(w_, x_, y_, z_);
 	}
 
 	public Quaternion mul(Vector3f r) {
@@ -61,15 +61,15 @@ public class Quaternion {
 		float y_ = w * r.getY() + z * r.getX() - x * r.getZ();
 		float z_ = w * r.getZ() + x * r.getY() - y * r.getX();
 
-		return new Quaternion(x_, y_, z_, w_);
+		return new Quaternion(w_, x_, y_, z_);
 	}
 
 	public Quaternion sub(Quaternion r) {
-		return new Quaternion(x - r.getX(), y - r.getY(), z - r.getZ(), w - r.getW());
+		return new Quaternion(w - r.getW(), x - r.getX(), y - r.getY(), z - r.getZ());
 	}
 
 	public Quaternion add(Quaternion r) {
-		return new Quaternion(x + r.getX(), y + r.getY(), z + r.getZ(), w + r.getW());
+		return new Quaternion(w + r.getW(), x + r.getX(), y + r.getY(), z + r.getZ());
 	}
 
 	public Matrix4f toRotationMatrix() {
@@ -88,7 +88,7 @@ public class Quaternion {
 		Quaternion correctedDest = dest;
 
 		if (shortest && this.dot(dest) < 0)
-			correctedDest = new Quaternion(-dest.getX(), -dest.getY(), -dest.getZ(), -dest.getW());
+			correctedDest = new Quaternion(-dest.getW(), -dest.getX(), -dest.getY(), -dest.getZ());
 
 		return correctedDest.sub(this).mul(lerpFactor).add(this).normalized();
 	}
@@ -101,7 +101,7 @@ public class Quaternion {
 
 		if (shortest && cos < 0) {
 			cos = -cos;
-			correctedDest = new Quaternion(-dest.getX(), -dest.getY(), -dest.getZ(), -dest.getW());
+			correctedDest = new Quaternion(-dest.getW(), -dest.getX(), -dest.getY(), -dest.getZ());
 		}
 
 		if (Math.abs(cos) >= 1 - EPSILON)
@@ -194,7 +194,7 @@ public class Quaternion {
 	 * @param eulerAngles
 	 * @return
 	 */
-	public Quaternion fromEuler(Vector3f eulerAngles) {
+	public static Quaternion fromEuler(Vector3f eulerAngles) {
 		float phi= eulerAngles.getX();
 		float theta= eulerAngles.getY();
 		float yota= eulerAngles.getZ();
