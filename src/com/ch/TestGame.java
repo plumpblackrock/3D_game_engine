@@ -187,7 +187,6 @@ public class TestGame extends Scene {
 		addObject(new GameObject().addComponent(new FreeLook(0.3f)).addComponent(new FreeMove(6.0f))
 				.addComponent(new Camera3D((float) Math.toRadians(70.0f), (float) Window.getWidth() / (float) Window.getHeight(), 0.01f, 1000.0f)));
 
-		cameraObject.getTransform().getPos().set(0.0f, 5.0f, -9.91f);
 		// AddObject(
 
 
