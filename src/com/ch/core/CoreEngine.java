@@ -63,22 +63,9 @@ public class CoreEngine {
 		Timer.init();
 
         game.init();
-
         game.validate();
 
 		while (isRunning) {
-
-            if (Input.GetKeyDown(Input.KEY_P)) {
-                int face = GL_FRONT;
-                int polygonMode = glGetInteger(GL_POLYGON_MODE);
-                if (polygonMode == GL_POINT) {
-                    glPolygonMode(face, GL_FILL);
-                } else if (polygonMode == GL_LINE) {
-                    glPolygonMode(face, GL_POINT);
-                } else if (polygonMode == GL_FILL) {
-                    glPolygonMode(face, GL_LINE);
-                }
-            }
 
             if (Input.GetKeyDown(Input.KEY_O)) {
                 this.game.setCurrentScene(new TestGame());
