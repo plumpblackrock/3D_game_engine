@@ -193,17 +193,16 @@ public class Quaternion {
 	}
 
 	/**
-	 * Just take a rusty nail and make sure that goes far up your asshole before trying to decode this bullshit of a method.
-	 * Good luck.
-	 * @param eulerAngles
-	 * @return
+	 * @param eulerAngles - @see <a href="https://en.wikipedia.org/wiki/Euler_angles#Proper_Euler_angles">Wikipedia's Article on Euler Angles</a> for a description
+	 *                    of their usage/definition.
+	 * @return The {@link Quaternion} associated with the Euler angles.
 	 */
 	public static Quaternion fromEuler(Vector3f eulerAngles) {
-		float phi= eulerAngles.getX();
-		float theta= eulerAngles.getY();
-		float yota= eulerAngles.getZ();
-
 		//eulerAngles = [phi, theta, yota]
+		float phi = eulerAngles.getX();
+		float theta = eulerAngles.getY();
+		float yota = eulerAngles.getZ();
+
 
 		//locally store all cos/sin so we don't have to calculate them twice each
 		float cos_half_phi = (float) Math.cos(phi / 2.0f);
