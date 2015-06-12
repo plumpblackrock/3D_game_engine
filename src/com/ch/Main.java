@@ -23,7 +23,7 @@ public class Main {
 //		copyResFromGD("3D Game Engine", getProjectPath());
 
         Game mainGame = new Game();
-        Scene s = new TestGame();
+        Scene s = new TemplateTest();
         mainGame.setCurrentScene(s);
 		CoreEngine engine = new CoreEngine(mainGame);
 		String usr = System.getProperty("user.name");
