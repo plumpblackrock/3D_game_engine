@@ -14,11 +14,12 @@ public class Quaternion {
 		this(0, 0, 0, 0);
 	}
 
-	public Quaternion(float x, float y, float z, float w) {
+	
+	public Quaternion(float w, float x, float y, float z) {
+		this.w = w;
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.w = w;
 	}
 
 	public Quaternion(Vector3f axis, float angle) {
@@ -38,15 +39,15 @@ public class Quaternion {
 	public Quaternion normalized() {
 		float length = length();
 
-		return new Quaternion(x / length, y / length, z / length, w / length);
+		return new Quaternion(w / length, x / length, y / length, z / length);
 	}
 
 	public Quaternion conjugate() {
-		return new Quaternion(-x, -y, -z, w);
+		return new Quaternion(w, -x, -y, -z);
 	}
 
 	public Quaternion mul(float r) {
-		return new Quaternion(x * r, y * r, z * r, w * r);
+		return new Quaternion(w * r, x * r, y * r, z * r);
 	}
 
 	public Quaternion mul(Quaternion r) {
@@ -55,7 +56,7 @@ public class Quaternion {
 		float y_ = y * r.getW() + w * r.getY() + z * r.getX() - x * r.getZ();
 		float z_ = z * r.getW() + w * r.getZ() + x * r.getY() - y * r.getX();
 
-		return new Quaternion(x_, y_, z_, w_);
+		return new Quaternion(w_, x_, y_, z_);
 	}
 
 	public Quaternion mul(Vector3f r) {
@@ -64,15 +65,15 @@ public class Quaternion {
 		float y_ = w * r.getY() + z * r.getX() - x * r.getZ();
 		float z_ = w * r.getZ() + x * r.getY() - y * r.getX();
 
-		return new Quaternion(x_, y_, z_, w_);
+		return new Quaternion(w_, x_, y_, z_);
 	}
 
 	public Quaternion sub(Quaternion r) {
-		return new Quaternion(x - r.getX(), y - r.getY(), z - r.getZ(), w - r.getW());
+		return new Quaternion(w - r.getW(), x - r.getX(), y - r.getY(), z - r.getZ());
 	}
 
 	public Quaternion add(Quaternion r) {
-		return new Quaternion(x + r.getX(), y + r.getY(), z + r.getZ(), w + r.getW());
+		return new Quaternion(w + r.getW(), x + r.getX(), y + r.getY(), z + r.getZ());
 	}
 
 	public Matrix4f toRotationMatrix() {
@@ -91,7 +92,7 @@ public class Quaternion {
 		Quaternion correctedDest = dest;
 
 		if (shortest && this.dot(dest) < 0)
-			correctedDest = new Quaternion(-dest.getX(), -dest.getY(), -dest.getZ(), -dest.getW());
+			correctedDest = new Quaternion(-dest.getW(), -dest.getX(), -dest.getY(), -dest.getZ());
 
 		return correctedDest.sub(this).mul(lerpFactor).add(this).normalized();
 	}
@@ -104,7 +105,7 @@ public class Quaternion {
 
 		if (shortest && cos < 0) {
 			cos = -cos;
-			correctedDest = new Quaternion(-dest.getX(), -dest.getY(), -dest.getZ(), -dest.getW());
+			correctedDest = new Quaternion(-dest.getW(), -dest.getX(), -dest.getY(), -dest.getZ());
 		}
 
 		if (Math.abs(cos) >= 1 - EPSILON)
@@ -189,6 +190,35 @@ public class Quaternion {
 		this.z = z;
 		this.w = w;
 		return this;
+	}
+
+	/**
+	 * @param eulerAngles - @see <a href="https://en.wikipedia.org/wiki/Euler_angles#Proper_Euler_angles">Wikipedia's Article on Euler Angles</a> for a description
+	 *                    of their usage/definition.
+	 * @return The {@link Quaternion} associated with the Euler angles.
+	 */
+	public static Quaternion fromEuler(Vector3f eulerAngles) {
+		//eulerAngles = [phi, theta, yota]
+		float phi = eulerAngles.getX();
+		float theta = eulerAngles.getY();
+		float yota = eulerAngles.getZ();
+
+
+		//locally store all cos/sin so we don't have to calculate them twice each
+		float cos_half_phi = (float) Math.cos(phi / 2.0f);
+		float sin_half_phi = (float) Math.sin(phi / 2.0f);
+		float cos_half_theta = (float) Math.cos(theta / 2.0f);
+		float sin_half_theta = (float) Math.sin(theta / 2.0f);
+		float cos_half_yota = (float) Math.cos(yota / 2.0f);
+		float sin_half_yota = (float) Math.sin(yota / 2.0f);
+
+		float q0 = cos_half_phi * cos_half_theta * cos_half_yota + sin_half_phi * sin_half_theta * sin_half_yota;
+		float q1 = sin_half_phi * cos_half_theta * cos_half_yota - cos_half_phi * sin_half_theta * sin_half_yota;
+		float q2 = cos_half_phi * sin_half_theta * cos_half_yota + sin_half_phi * cos_half_theta * sin_half_yota;
+		float q3 = cos_half_phi * cos_half_theta * sin_half_yota - sin_half_phi * sin_half_theta * cos_half_yota;
+
+		return new Quaternion(q0, q1, q2, q3);
+
 	}
 
 	public Quaternion set(Quaternion r) {
