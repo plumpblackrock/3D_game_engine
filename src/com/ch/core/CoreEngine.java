@@ -8,7 +8,8 @@ import static org.lwjgl.opengl.GL11.GL_POLYGON_MODE;
 import static org.lwjgl.opengl.GL11.glGetInteger;
 import static org.lwjgl.opengl.GL11.glPolygonMode;
 
-import org.lwjgl.input.Keyboard;
+import com.ch.TestGame;
+import com.ch.core.scene.Scene;
 import org.lwjgl.opengl.Display;
 
 import com.ch.input.Input;
@@ -25,22 +26,20 @@ public class CoreEngine {
 	/**
 	 * The instance of {@link Scene} that contains all the scenes to be renderer
 	 */
-	private Scene game;
-	private Renderer renderer;
+	private Game game;
 
 	/**
 	 * 
 	 * @param game
 	 */
-	public CoreEngine(Scene game) {
+	public CoreEngine(Game game) {
 		this.isRunning = false;
 		this.game = game;
-		game.setEngine(this);
+		this.game.setEngine(this);
 	}
 
 	public void createWindow(int width, int height, String title) {
 		Window.createWindow(width, height, title);
-		this.renderer = new Renderer();
 	}
 
 	public void start() {
@@ -63,25 +62,29 @@ public class CoreEngine {
 
 		Timer.init();
 
-		game.init();
+        game.init();
+
+        game.validate();
 
 		while (isRunning) {
 
-			while (Keyboard.next()) {
-				int face = GL_FRONT;
-				if (Keyboard.getEventKeyState()) {
-					if (Keyboard.getEventKey() == Keyboard.KEY_P) {
-						int polygonMode = glGetInteger(GL_POLYGON_MODE);
-						if (polygonMode == GL_POINT) {
-							glPolygonMode(face, GL_FILL);
-						} else if (polygonMode == GL_LINE) {
-							glPolygonMode(face, GL_POINT);
-						} else if (polygonMode == GL_FILL) {
-							glPolygonMode(face, GL_LINE);
-						}
-					}
-				}
-			}
+            if (Input.GetKeyDown(Input.KEY_P)) {
+                int face = GL_FRONT;
+                int polygonMode = glGetInteger(GL_POLYGON_MODE);
+                if (polygonMode == GL_POINT) {
+                    glPolygonMode(face, GL_FILL);
+                } else if (polygonMode == GL_LINE) {
+                    glPolygonMode(face, GL_POINT);
+                } else if (polygonMode == GL_FILL) {
+                    glPolygonMode(face, GL_LINE);
+                }
+            }
+
+            if (Input.GetKeyDown(Input.KEY_O)) {
+                this.game.setCurrentScene(new TestGame());
+                game.init();
+                game.validate();
+            }
 
 			if (Window.isCloseRequested()) {
 				stop();
@@ -93,6 +96,7 @@ public class CoreEngine {
 
 			Timer.update();
 
+            // TODO: remove ~only temp~
 			Display.setTitle(Timer.getFPS() + "");
 
 			game.input(Timer.getDelta());
@@ -100,7 +104,7 @@ public class CoreEngine {
 
 			game.update(Timer.getDelta());
 
-			game.render(renderer);
+			game.render();
 			Window.render();
 
 		}
@@ -110,7 +114,7 @@ public class CoreEngine {
 	}
 
 	private void resize() {
-		renderer.getMainCamera().adjustToViewport();
+		game.resize();
 	}
 
 	private void cleanUp() {
@@ -121,7 +125,4 @@ public class CoreEngine {
 		System.exit(0);
 	}
 
-	public Renderer getRenderer() {
-		return renderer;
-	}
 }

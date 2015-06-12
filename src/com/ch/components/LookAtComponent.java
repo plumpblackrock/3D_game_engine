@@ -1,6 +1,6 @@
 package com.ch.components;
 
-import com.ch.core.Renderer;
+import com.ch.core.renderer.Renderer;
 import com.ch.math.Quaternion;
 import com.ch.math.Vector3f;
 import com.ch.rendering.light.Shader;

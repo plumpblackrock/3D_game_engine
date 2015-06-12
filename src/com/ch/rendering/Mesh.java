@@ -2,6 +2,7 @@ package com.ch.rendering;
 
 import com.ch.IO.IndexedModel;
 import com.ch.IO.OBJModel;
+import com.ch.math.Vector2f;
 import com.ch.math.Vector3f;
 import com.ch.resource.MeshResource;
 import com.ch.util.Util;
@@ -17,10 +18,10 @@ public class Mesh {
 
 	private static HashMap<String, MeshResource> loadedModels = new HashMap<String, MeshResource>();
 	private MeshResource resource;
-	private String fileName;
+	private String name;
 
 	public Mesh(String fileName) {
-		this.fileName = fileName;
+		this.name = fileName;
 		MeshResource oldResource = loadedModels.get(fileName);
 
 		if (oldResource != null) {
@@ -32,19 +33,36 @@ public class Mesh {
 		}
 	}
 
-	public Mesh(Vertex[] vertices, int[] indices) {
-		this(vertices, indices, false);
+	public Mesh(Vertex[] vertices, int[] indices, String name) {
+		this(vertices, indices, false, name);
 	}
 
-	public Mesh(Vertex[] vertices, int[] indices, boolean calcNormals) {
-		fileName = "";
+	public Mesh(Vertex[] vertices, int[] indices, boolean calcNormals, String name) {
+		this.name = name;
 		addVertices(vertices, indices, calcNormals);
 	}
 
+    public static Mesh quad2D(Vector2f center, Vector2f dimensions) {
+
+        Vector2f halfSides = dimensions.mul(.5f);
+
+        Vertex[] vertices = {
+                new Vertex(center.add(halfSides).as3DVector(), new Vector2f(1, 1)),
+                new Vertex(center.add(-halfSides.getX(), halfSides.getY()).as3DVector(), new Vector2f(0, 1)),
+                new Vertex(center.sub(halfSides).as3DVector(), new Vector2f(0, 0)),
+                new Vertex(center.add(halfSides.getX(), -halfSides.getY()).as3DVector(), new Vector2f(1, 0)),
+        };
+
+        int[] indices = { 2, 0, 3, 2, 1, 0 };
+
+        return new Mesh(vertices, indices, true, "quad2 " + center + " " + dimensions);
+
+    }
+
 	@Override
 	protected void finalize() {
-		if (resource.removeReference() && !fileName.isEmpty()) {
-			loadedModels.remove(fileName);
+		if (resource.removeReference() && !name.isEmpty()) {
+			loadedModels.remove(name);
 		}
 	}
 

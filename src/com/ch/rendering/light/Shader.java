@@ -29,7 +29,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.ch.core.Renderer;
+import com.ch.core.renderer.Renderer;
 import com.ch.core.Transform;
 import com.ch.math.Matrix4f;
 import com.ch.math.Vector3f;
@@ -172,7 +172,7 @@ public class Shader {
 	}
 
 	private HashMap<String, ArrayList<GLSLStruct>> findUniformStructs(String shaderText) {
-		HashMap<String, ArrayList<GLSLStruct>> result = new HashMap<String, ArrayList<GLSLStruct>>();
+		HashMap<String, ArrayList<GLSLStruct>> result = new HashMap<>();
 
 		final String STRUCT_KEYWORD = "struct";
 		int structStartLocation = shaderText.indexOf(STRUCT_KEYWORD);

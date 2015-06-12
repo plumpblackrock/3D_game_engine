@@ -160,9 +160,9 @@ public class Matrix4f {
 		return this;
 	}
 
-	public Matrix4f initOrthographic(float left, float right, float bottodata, float top, float near, float far) {
+	public Matrix4f initOrthographic(float left, float right, float bottom, float top, float near, float far) {
 		float width = right - left;
-		float height = top - bottodata;
+		float height = top - bottom;
 		float depth = far - near;
 
 		data[0][0] = 2 / width;
@@ -172,7 +172,7 @@ public class Matrix4f {
 		data[1][0] = 0;
 		data[1][1] = 2 / height;
 		data[1][2] = 0;
-		data[1][3] = -(top + bottodata) / height;
+		data[1][3] = -(top + bottom) / height;
 		data[2][0] = 0;
 		data[2][1] = 0;
 		data[2][2] = -2 / depth;

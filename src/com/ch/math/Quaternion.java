@@ -1,5 +1,8 @@
 package com.ch.math;
 
+import static java.lang.Math.sin;
+import static java.lang.Math.cos;
+
 public class Quaternion {
 
 	private float x;
@@ -10,6 +13,7 @@ public class Quaternion {
 	public Quaternion() {
 		this(0, 0, 0, 0);
 	}
+
 	
 	public Quaternion(float w, float x, float y, float z) {
 		this.w = w;
